@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Yosutta/Training/issues"
   },
-  "homepage": "https://github.com/Yosutta/Training#readme"
+  "homepage": "https://github.com/Yosutta/Training#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
 }
