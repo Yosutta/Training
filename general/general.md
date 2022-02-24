@@ -20,7 +20,7 @@ npm install express
     - Create a new file `general.js`
     - Open `general.js` in an editor
     - Write the following lines to `general.js`
-    ```sh
+    ```js
     const express = require('express') // Require Express module
     const app = express() // Assign express top-level function
     const port = 3000 // Assign server port
@@ -65,7 +65,7 @@ npm install express
 Routing is how our express application will responses to a client request, this request can be a URI (or path) with specific HTTP method (such as GET, POST,...etc )
 
 Express routing have the following structure: 
-```sh
+```js
 app.METHOD(PATH, HANDLER)
 ```
 Where:
@@ -79,11 +79,11 @@ In order to serves static files such as CSS, images, media, etc...
 They must be specified with express.static() middleware
 
 For example, to render a page with 'app.css' styles to the front page:
-```sh
+```js
 app.use(express.static('highway.jpg'))
 ```
 
 To serve multiple files, we can serve them as 1 folder:
-```sh
+```js
 app.use(express.static('public'))
 ```
