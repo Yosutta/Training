@@ -18,6 +18,7 @@ Routing methods can also have multiple callback function. For every executed cal
 [Route handlers](#route-handlers)
 [Response methods](#response-methods)
 [app.route()](#approute)
+[express.Router](#expressrouter)
 
 
 <br>
@@ -262,3 +263,37 @@ app.route('/user')
     })
 ```
 <br>
+
+
+### express.Router
+express.Router is a class that helps create modular, mountable route handlers.
+We can create a route module and export it like so
+```js
+const express = require('express')
+const router = express.Router()
+
+router.get('/career', (req, res) => {
+    res.send('Career path')
+})
+
+router.get('/about', (req, res) => {
+    res.send('This is the about page')
+})
+
+module.exports = router
+```
+Then we can import and use the class in the main file
+```js
+const express = require('express')
+const app = express()
+const home = require('./home')
+
+app.use('/home', home)
+app.get('/home', (req, res) => {
+    res.send('This is the home page')
+})
+
+app.listen(3000, () => {
+    console.log('Listening ont port 3000')
+})
+```
