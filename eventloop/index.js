@@ -32,24 +32,15 @@ function readFileWithCallbackHell() {
     })
   })
 }
-
-function readFile(delayTime, file, callback) {
-  console.log('Reading file1')
-  //resolveAfter2Seconds(delayTime);
-  const dataResult = file
-  console.log('Finished reading file')
-  return callback(null, dataResult)
-}
-
 function readFileWithIndependentPromise() {
-  const promise1 = new Promise(function callNewPromise1(resolve, reject) {
-    readFile(0, 'This is the 1st file', function readFileCallback1(err, data) {
+  const promise1 = new Promise((resolve, reject) => {
+    readFile(0, 'This is the 1st file', (err, data) => {
       console.log('Resolving readFile 1')
       resolve(data)
     })
   })
-  const promise2 = new Promise(function callNewPromise1(resolve, reject) {
-    readFile(0, 'This is the 2st file', function readFileCallback2(err, data) {
+  const promise2 = new Promise((resolve, reject) => {
+    readFile(0, 'This is the 2st file', (err, data) => {
       console.log('Resolving readFile 2')
       reject('ALO, err ngay day roi ban oi')
     })
@@ -58,26 +49,26 @@ function readFileWithIndependentPromise() {
   })
 
   promise1
-    .then(function resolvePromise1(data) {
+    .then((data) => {
       console.log(data)
       return promise2
     })
-    .then(function resolvePromise2(data) {
+    .then((data) => {
       if (data) {
         console.log(data)
         console.log(`status ${promise2}`)
       }
       return promise3
     })
-    .then(function resolvePromise3(data) {
+    .then((data) => {
       console.log(data)
     })
-    .catch(function rejectPromise(err) {
+    .catch((err) => {
       console.log(`ERROR + ${err}`)
     })
 
-  const promise3 = new Promise(function callNewPromise3(resolve, reject) {
-    readFile(0, 'This is the 3st file', function readFileCallback3(err, data) {
+  const promise3 = new Promise((resolve, reject) => {
+    readFile(0, 'This is the 3st file', (err, data) => {
       console.log('Resolving readFile 3')
       resolve(data)
     })
