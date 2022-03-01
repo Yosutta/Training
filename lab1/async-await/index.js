@@ -3,18 +3,19 @@ const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
 const argv = yargs(hideBin(process.argv)).argv
 
-function writeToFile(readPath, writePath) {
-  const promiseReadFile = new Promise((resolve, reject) => {
-    fs.readFile(readPath, 'utf-8', (err, data) => {
-      if (err) {
-        console.log(`Error readfile: ${err}`)
-        reject(err)
-      }
-      resolve(data)
+async function writeToFile(readPath, writePath) {
+  const promiseReadFile = (readPath) => {
+    return new Promise((resolve, reject) => {
+      fs.readFile(readPath, 'utf-8', (err, data) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(data)
+      })
     })
-  })
+  }
 
-  const promiseWriteFile = (content) => {
+  const promiseWriteFile = (content, writePath) => {
     return new Promise((resolve, reject) => {
       fs.writeFile(writePath, content, { flag: 'a+' }, (err) => {
         if (err) {
@@ -25,7 +26,7 @@ function writeToFile(readPath, writePath) {
     })
   }
 
-  const promiseWriteMultipleFiles = (content) => {
+  const promiseWriteMultipleFiles = (content, writePath) => {
     return new Promise((resolve, reject) => {
       for (path of writePath) {
         fs.writeFile(path, content, { flag: 'a+' }, (err) => {
@@ -38,21 +39,22 @@ function writeToFile(readPath, writePath) {
     })
   }
 
-  promiseReadFile
-    .then((data) => {
-      console.log(data)
-      if (Array.isArray(writePath)) return promiseWriteMultipleFiles(data)
-      else return promiseWriteFile(data)
-    })
-    .then((stringResult) => {
-      console.log(stringResult)
-    })
-    .catch((err) => {
-      console.log('ERROR: ', err)
-    })
+  const read_data = await promiseReadFile(readPath)
+  console.log(read_data)
+  if (Array.isArray(writePath)) {
+    return await promiseWriteMultipleFiles(read_data, writePath)
+  } else {
+    return await promiseWriteFile(read_data, writePath)
+  }
 }
 
 writeToFile(argv.readPath, argv.writePath)
+  .then((data) => {
+    console.log('SUCESS:', data)
+  })
+  .catch((err) => {
+    console.log('ERROR: ', err)
+  })
 
 // --readPath=<pathToReadFile>
 // --writepath=<pathTOWriteFile>
