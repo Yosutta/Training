@@ -1,19 +1,35 @@
+const { application } = require('express')
 const express = require('express')
 const app = express()
 
-// app.use((req, res, next) => {
-//   console.log('Time: ', Date.now())
-//   next()
-// })
+app.get('/test', (req, res) => {
+  res.send('This is a test')
+})
 
-app.use('/user/:id', (req, res, next) => {
-  console.log(req.method)
+app.use((req, res, next) => {
+  console.log('Time: ', Date.now())
   next()
 })
 
-app.get('/user/:id', (req, res) => {
-  res.send(`USER ID: ${req.params.id}`)
-})
+// app.use('/user/:id', (req, res, next) => {
+//   console.log(req.method)
+//   next()
+// })
+
+app.get(
+  '/user/:id',
+  (req, res, next) => {
+    console.log(req.method)
+    next()
+  },
+  (req, res, next) => {
+    console.log(req.method)
+    res.status(403).send('Forbbidden')
+  },
+  (req, res) => {
+    res.send(`USER ID: ${req.params.id}`)
+  }
+)
 
 // app.use(
 //   '/book/:id',
