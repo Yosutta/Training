@@ -9,9 +9,14 @@ const {
   createAccount,
   loginAccount,
   welcomeBack,
+  renderChangePasswordPage,
+  changePassword,
+  checkChangePasswordInput,
 } = require('../controller/authController')
-const router = express.Router()
+const { createJWT } = require('../middleware/createJWT')
+const { JWTAuthorize } = require('../middleware/JWTAuthorize')
 
+const router = express.Router()
 router
   .route('/register')
   .get(renderRegisterPage)
@@ -20,6 +25,11 @@ router
 router
   .route('/login')
   .get(renderLoginPage)
-  .post(checkInput, loginAccount, welcomeBack)
+  .post(checkInput, loginAccount, createJWT, welcomeBack)
+
+router
+  .route('/changepassword')
+  .get(JWTAuthorize, renderChangePasswordPage)
+  .post(JWTAuthorize, checkChangePasswordInput, changePassword)
 
 module.exports = router

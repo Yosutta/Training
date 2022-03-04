@@ -5,3 +5,9 @@ module.exports.DBgetAllUsers = async () => {
   const [results, fields] = await connection.promise().query(query)
   return results
 }
+
+module.exports.DBgetUser = async (username) => {
+  const query = `SELECT * FROM user WHERE username="${username}"`
+  const [results, fields] = await connection.promise().query(query)
+  return results
+}
