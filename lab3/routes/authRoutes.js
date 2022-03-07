@@ -17,15 +17,9 @@ const { createJWT } = require('../middleware/createJWT')
 const { JWTAuthorize } = require('../middleware/JWTAuthorize')
 
 const router = express.Router()
-router
-  .route('/register')
-  .get(renderRegisterPage)
-  .post(checkInput, createAccount, redirectToLogin)
+router.route('/register').get(renderRegisterPage).post(checkInput, createAccount, redirectToLogin)
 
-router
-  .route('/login')
-  .get(renderLoginPage)
-  .post(checkInput, loginAccount, createJWT, welcomeBack)
+router.route('/login').get(renderLoginPage).post(checkInput, loginAccount, createJWT, welcomeBack)
 
 router
   .route('/changepassword')
