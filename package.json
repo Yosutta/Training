@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@node-redis/json": "^1.0.2",
+    "express": "^4.17.3",
+    "http-status-codes": "^2.2.0",
+    "redis": "^4.0.4"
+  }
+}
