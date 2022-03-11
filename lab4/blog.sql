@@ -27,13 +27,15 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `parentId` bigint(20) DEFAULT NULL,
+  `authorId` bigint(20) NOT NULL,
   `title` varchar(75) COLLATE utf8mb4_unicode_ci NOT NULL,
   `metaTitle` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `slug` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `content` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `idx_category_parent` (`parentId`),
-  CONSTRAINT `fk_category_parent` FOREIGN KEY (`parentId`) REFERENCES `category` (`id`)
+  CONSTRAINT `fk_category_parent` FOREIGN KEY (`parentId`) REFERENCES `category` (`id`),
+  CONSTRAINT `fk_category_authorId` FOREIGN KEY (`authorId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -271,3 +273,28 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2019-11-29 10:09:20
+
+CREATE TABLE `permission`(
+	`id` int NOT NULL auto_increment, 
+	`resource` varchar(16),
+	`action` varchar(16), 
+	`note` text,
+    PRIMARY KEY (`id`)
+);
+
+-- CREATE TABLE `user_permission`(
+-- 	`id` int auto_increment,
+--     `user_id` bigint(20) NOT NULL,
+--     `permission_id` int NOT NULL,
+--     PRIMARY KEY (`id`),
+--     CONSTRAINT `fk_up_permission` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`),
+--     CONSTRAINT `fk_pp_permission` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`)
+-- );
+
+CREATE TABLE `user_permission`(
+    `userId` bigint(20) NOT NULL,
+    `permissionId` int NOT NULL,
+    PRIMARY KEY (`userId`,`permissionId`),
+    CONSTRAINT `fk_up_permission` FOREIGN KEY (`userId`) REFERENCES `user`(`id`),
+    CONSTRAINT `fk_pp_permission` FOREIGN KEY (`permissionId`) REFERENCES `permission` (`id`)
+);

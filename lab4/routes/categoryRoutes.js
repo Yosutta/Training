@@ -2,12 +2,12 @@ const express = require('express')
 const { route } = require('express/lib/application')
 const {
   addNewCategory,
-  redirectHomeCategory,
   returnHomeCategoryData,
   returnSingleCategoryData,
   editSingleCategoryData,
   deleteSingleCategory,
 } = require('../controllers/categoryController')
+const CheckPermission = require('../middleware/checkPermisison')
 const router = express.Router()
 
 module.exports = function (DBconnection) {
@@ -16,13 +16,11 @@ module.exports = function (DBconnection) {
     next()
   })
 
-  router.route('/').get(returnHomeCategoryData).post(addNewCategory, redirectHomeCategory)
-
-  router
-    .route('/:id')
-    .get(returnSingleCategoryData)
-    .put(editSingleCategoryData, returnSingleCategoryData)
-    .delete(deleteSingleCategory, returnHomeCategoryData)
+  router.route('/').get(CheckPermission, returnHomeCategoryData)
+  router.route('/').post(CheckPermission, addNewCategory)
+  router.route('/:id').get(CheckPermission, returnSingleCategoryData)
+  router.route('/:id').put(CheckPermission, editSingleCategoryData)
+  router.route('/:id').delete(CheckPermission, deleteSingleCategory)
 
   return router
 }

@@ -4,17 +4,17 @@ module.exports = class PostModel {
     const [results, fields] = await DBconnection.promise()
       .query(query)
       .catch((err) => {
-        console.error(err)
+        throw err
       })
     return results
   }
 
   static async getSinglePost(DBconnection, post_id) {
-    const query = `SELECT * FROM post WHERE id = "${post_id}"`
+    const query = `SELECT * FROM post WHERE id = ?`
     const [results, fields] = await DBconnection.promise()
-      .query(query)
+      .query(query, [post_id])
       .catch((err) => {
-        console.error(err)
+        throw err
       })
     return results
   }
@@ -28,29 +28,45 @@ module.exports = class PostModel {
     post_created_at,
     post_content
   ) {
-    const query = `INSERT INTO post(authorId,title,slug,published,createdAt,content) VALUES ("${author_id}","${post_title}", "${post_slug}","${post_published}","${post_created_at}","${post_content}")`
-    await DBconnection.promise()
-      .query(query)
+    const query = `INSERT INTO post(authorId,title,slug,published,createdAt,content) VALUES (?,?,?,?,?,?)`
+    const [results, fields] = await DBconnection.promise()
+      .query(query, [
+        author_id,
+        post_title,
+        post_slug,
+        post_published,
+        post_created_at,
+        post_content,
+      ])
       .catch((err) => {
-        console.error(err)
+        throw err
       })
+    return results
   }
 
-  static async editSinglePost(DBconnection, post_id, new_post_title, new_post_slug, new_post_content) {
-    const query = `UPDATE post SET title="${new_post_title}", slug="${new_post_slug}", content="${new_post_content}" WHERE id="${post_id}";`
-    DBconnection.promise()
-      .query(query)
+  static async editSinglePost(
+    DBconnection,
+    post_id,
+    new_post_title,
+    new_post_slug,
+    new_post_content
+  ) {
+    const query = `UPDATE post SET title=?, slug=?, content=? WHERE id=?;`
+    const [results, fields] = await DBconnection.promise()
+      .query(query, [new_post_title, new_post_slug, new_post_content, post_id])
       .catch((err) => {
-        console.error(err)
+        throw err
       })
+    return results
   }
 
   static async deleteSinglePost(DBconnection, post_id) {
-    const query = `DELETE FROM post WHERE id="${post_id}"`
-    DBconnection.promise()
-      .query(query)
+    const query = `DELETE FROM post WHERE id=?`
+    const [results, fields] = await DBconnection.promise()
+      .query(query, [post_id])
       .catch((err) => {
-        console.error(err)
+        throw err
       })
+    return results
   }
 }

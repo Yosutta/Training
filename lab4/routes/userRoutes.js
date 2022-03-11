@@ -6,7 +6,10 @@ const {
   returnSingleUserData,
   deleteSingleUser,
   loginUser,
+  logoutUser,
+  giveNewUserPermission,
 } = require('../controllers/userController')
+const AuthenticateJWT = require('../middleware/AuthenticateJWT')
 const router = express.Router()
 
 module.exports = function (DBconnection) {
@@ -16,11 +19,11 @@ module.exports = function (DBconnection) {
   })
 
   router.route('/').get(returnAllUsersData)
-
-  router.route('/:id').get(returnSingleUserData).delete(deleteSingleUser)
-
-  router.route('/register').get().post(registerNewUser)
-
-  router.route('/login').get().post(loginUser)
+  router.route('/:id').get(returnSingleUserData)
+  router.route('/:id').delete(deleteSingleUser)
+  router.route('/register').get()
+  router.route('/register').post(registerNewUser)
+  router.route('/login').post(loginUser)
+  router.route('/logout').post(AuthenticateJWT, logoutUser)
   return router
 }
