@@ -3,6 +3,7 @@ const { StatusCodes, ReasonPhrases } = require('http-status-codes')
 const { json } = require('express/lib/response')
 
 module.exports.returnHomeCategoryData = async (req, res) => {
+  console.log('category')
   try {
     const all_categories_data = await CategoryModel.getAllCategories(
       req.DBconnection

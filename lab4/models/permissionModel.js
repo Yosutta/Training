@@ -10,7 +10,7 @@ module.exports = class PermissionModel {
   }
 
   static async getUserPermission(DBconnection, user_id) {
-    const query = `SELECT * FROM user_permission, permission WHERE userId=? and user_permission.permissionId=permission.id`
+    const query = `SELECT resource, action FROM user_permission, permission WHERE userId=? and user_permission.permissionId=permission.id`
     const [results, fields] = await DBconnection.promise()
       .query(query, [user_id])
       .catch((err) => {

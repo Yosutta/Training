@@ -4,7 +4,7 @@ const { StatusCodes, ReasonPhrases } = require('http-status-codes')
 const UserModel = require('../models/userModel')
 const PermissionModel = require('../models/permissionModel')
 const UserPermissionModel = require('../models/userPermissionModel')
-
+const _ = require('lodash')
 module.exports.returnAllUsersData = async (req, res) => {
   try {
     const all_users_data = await UserModel.getAllUsers(req.DBconnection)
@@ -85,39 +85,31 @@ module.exports.loginUser = async (req, res, next) => {
       req.DBconnection,
       foundUser[0].id
     )
-    //Collect permission resource into an array
-    let permission_resources = []
-    for (permission of permissionsData) {
-      if (!permission_resources.includes(permission.resource)) {
-        permission_resources.push(permission.resource)
-      }
-    }
-    //Collect each resource action into an array
-    let payload_permission = []
-    for (permission_resource of permission_resources) {
-      action_pill = []
-      for (permissionData of permissionsData) {
-        if (permission_resource === permissionData.resource) {
-          action_pill.push(permissionData.action)
-        }
-      }
-      //Create permission object { resource : [action, action] }
-      const permission = {}
-      permission[permission_resource] = action_pill
-      payload_permission.push(permission)
-    }
+    const permission = {}
+    const result = _.forEach(permissionsData, (value) => {
+      const resource = value.resource
+      const action = value.action
+      // if (_.has(permission, resource)) {
+      //   permission[resource].push(action)
+      // } else {
+      //   permission[resource] = [action]
+      // }
+
+      _.has(permission, resource)
+        ? permission[resource].push(action)
+        : (permission[resource] = [action])
+    })
 
     // Create payload
     const payload = { user_id: foundUser[0].id }
-    payload.permission = payload_permission
-    payload.created_at = new Date(Date.now()).toISOString()
+    payload.permission = permission
 
     //Sign payload with jwt
     const token = jwt.sign(payload, process.env.JWT_SECRET)
 
     //Save payload to Redis easy authorization
-    Promise.resolve(payload).then((payload) => {
-      redisClient.json.set(payload.user_id, '$', payload)
+    Promise.resolve(token).then((token) => {
+      redisClient.set(payload.user_id, token)
     })
 
     // Login user successfully

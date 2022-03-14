@@ -3,7 +3,7 @@ const UserModel = require('../models/userModel')
 const UserPermissionModel = require('../models/userPermissionModel')
 const redisClient = require('../lib/redis-connection')
 
-module.exports.updateAllUserPermission = async (req, res, next) => {
+module.exports.updateAllUserPermission = async (req, res) => {
   try {
     const data = await UserModel.getAllUsers(req.DBconnection)
     let userIdArray = data.map((user) => {
@@ -34,7 +34,7 @@ module.exports.updateAllUserPermission = async (req, res, next) => {
   }
 }
 
-module.exports.updateSingleUserPermission = async (req, res, next) => {
+module.exports.updateSingleUserPermission = async (req, res) => {
   try {
     const { userId, permissionId } = req.body
     if (!userId || !permissionId) throw new Error('Missing query input')
@@ -44,7 +44,7 @@ module.exports.updateSingleUserPermission = async (req, res, next) => {
       permissionId
     )
     setTimeout(() => {
-      redisClient.json.del(userId)
+      redisClient.del(userId)
     }, 0)
     res.status(StatusCodes.OK).json({
       messagecode: `Added permission ${permissionId} to userId : ${userId}.`,
@@ -57,7 +57,7 @@ module.exports.updateSingleUserPermission = async (req, res, next) => {
   }
 }
 
-module.exports.deleteAllUserPermission = async (req, res, next) => {
+module.exports.deleteAllUserPermission = async (req, res) => {
   try {
     const data = await UserModel.getAllUsers(req.DBconnection)
     let userIdArray = data.map((user) => {
@@ -88,7 +88,7 @@ module.exports.deleteAllUserPermission = async (req, res, next) => {
   }
 }
 
-module.exports.deleteSingleUserPermission = async (req, res, next) => {
+module.exports.deleteSingleUserPermission = async (req, res) => {
   try {
     const { userId, permissionId } = req.body
     if (!userId || !permissionId) throw new Error('Missing query input')
@@ -98,7 +98,7 @@ module.exports.deleteSingleUserPermission = async (req, res, next) => {
       permissionId
     )
     setTimeout(() => {
-      redisClient.json.del(userId)
+      redisClient.del(userId)
     }, 0)
     res.status(StatusCodes.OK).json({
       messagecode: `Delete permission ${permissionId} from userId : ${userId}.`,
