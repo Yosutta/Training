@@ -1,0 +1,25 @@
+<--- Last few GCs --->
+
+[12404:0000021C95294D80]   200218 ms: Scavenge 51.3 (54.2) -> 51.3 (54.2) MB, 0.3 / 0.0 ms  (average mu = 0.921, current mu = 0.848) external memory pressure
+[12404:0000021C95294D80]   200467 ms: Mark-sweep 51.4 (54.2) -> 51.2 (54.2) MB, 0.9 / 0.0 ms  (+ 0.1 ms in 2 steps since start of marking, biggest step 0.0 ms, walltime since start of marking 589 ms) (average mu = 0.959, current mu = 0.999) finalize incre
+
+<--- JS stacktrace --->
+
+FATAL ERROR: Committing semi space failed. Allocation failed - JavaScript heap out of memory
+ 1: 00007FF6A16A1B4F 
+ 2: 00007FF6A1630BA6
+ 3: 00007FF6A1631A5D
+ 4: 00007FF6A203CDBE
+ 5: 00007FF6A2026FCD
+ 6: 00007FF6A1EC8B5C
+ 7: 00007FF6A1ED1C69
+ 8: 00007FF6A1EC57D9
+ 9: 00007FF6A1EC32B3
+10: 00007FF6A1DD6E5D
+11: 00007FF6A1FEFDF4
+12: 00007FF6A1FEF951
+13: 00007FF6A1FEF460
+14: 00007FF6A20CF7A1
+15: 00007FF6A205B8BC
+16: 00007FF6A213FA55
+17: 0000021C96EDD1B9
