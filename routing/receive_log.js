@@ -9,9 +9,11 @@ const QUEUE_NAME = ''
 connection.then(async (conn) => {
   const channel = await conn.createChannel()
   await channel.assertQueue(QUEUE_NAME, { exclusive: true })
+
   await severities.forEach((severity) => {
     channel.bindQueue(QUEUE_NAME, EXCHANGE_NAME, severity)
   })
+
   channel.consume(QUEUE_NAME, (m) => {
     console.log(m.content.toString())
   })

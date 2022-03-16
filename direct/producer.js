@@ -7,13 +7,12 @@ const fs = require('fs')
 
 const numbers = ['1', '2', '3', '4', '5', '6', '7']
 // const json = JSON.stringify({ name: 'tin' })
-const json = fs.readFileSync('./sample-json.json')
+// const json = fs.readFileSync('./sample-json.json')
 
 connection.then(async (conn) => {
   const channel = await conn.createChannel()
   await channel.assertExchange(EXCHANGE_NAME, EXCHANGE_TYPE)
-  await channel.assertQueue(QUEUE_NAME)
-  channel.bindQueue(QUEUE_NAME, EXCHANGE_NAME, ROUTING_KEY)
+  await channel.assertQueue(QUEUE_NAME, { exclusive: true })
 
   numbers.forEach((number) => {
     channel.publish(EXCHANGE_NAME, ROUTING_KEY, Buffer.from(number))

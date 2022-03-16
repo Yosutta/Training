@@ -5,5 +5,6 @@ connection.then(async (conn) => {
   const channel = await conn.createChannel()
   channel.consume(QUEUE_NAME, (m) => {
     console.log(m.content.toString())
+    channel.ack(m)
   })
 })

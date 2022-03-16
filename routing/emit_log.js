@@ -1,6 +1,7 @@
 const connection = require('../lib/rabbitmq.connection')
 const EXCHANGE_TYPE = 'direct'
 const EXCHANGE_NAME = 'direct_logs'
+
 const severity = process.argv[2] //ROUTING KEY
 const msg = process.argv[3]
 
