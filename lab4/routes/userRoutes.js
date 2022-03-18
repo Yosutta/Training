@@ -7,6 +7,7 @@ import {
   loginUser,
   logoutUser,
 } from '../controllers/userController.js'
+import AuthValidate from '../middleware/validateinput/AuthValidate.js'
 import AuthenticateJWT from '../middleware/AuthenticateJWT.js'
 const router = express.Router()
 
@@ -20,8 +21,8 @@ export default function (DBconnection) {
   router.route('/:id').get(returnSingleUserData)
   router.route('/:id').delete(deleteSingleUser)
   router.route('/register').get()
-  router.route('/register').post(registerNewUser)
-  router.route('/login').post(loginUser)
+  router.route('/register').post(AuthValidate, registerNewUser)
+  router.route('/login').post(AuthValidate, loginUser)
   router.route('/logout').post(AuthenticateJWT, logoutUser)
   return router
 }

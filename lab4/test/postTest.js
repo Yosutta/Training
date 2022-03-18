@@ -1,7 +1,6 @@
 import app from '../app.js'
 import DBconnection from '../lib/mysql-connection.js'
 import PostModel from '../models/postModel.js'
-import CheckPermission from '../middleware/checkPermisison.js'
 import { ROUTE_AUTH, ROUTE_POSTS } from './RouteAlias.js'
 import request from 'supertest'
 import { StatusCodes } from 'http-status-codes'

@@ -60,14 +60,14 @@ export async function addNewPost(req, res, next) {
 
 export async function editSinglePostData(req, res, next) {
   try {
-    const { new_post_title, new_post_slug, new_post_content } = req.body
+    const { post_title, post_slug, post_content } = req.body
     const post_id = req.params.id
     await PostModel.editSinglePost(
       req.DBconnection,
       post_id,
-      new_post_title,
-      new_post_slug,
-      new_post_content
+      post_title,
+      post_slug,
+      post_content
     )
     res
       .status(StatusCodes.OK)

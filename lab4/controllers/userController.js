@@ -79,7 +79,6 @@ export async function loginUser(req, res, next) {
       return res
         .status(StatusCodes.OK)
         .json({ messagecode: 'Incorrect email or password' })
-
     //Get user permission from SQL
     const permissionsData = await PermissionModel.getUserPermission(
       req.DBconnection,
@@ -94,7 +93,6 @@ export async function loginUser(req, res, next) {
       // } else {
       //   permission[resource] = [action]
       // }
-
       _.has(permission, resource)
         ? permission[resource].push(action)
         : (permission[resource] = [action])
@@ -103,7 +101,6 @@ export async function loginUser(req, res, next) {
     // Create payload
     const payload = { user_id: foundUser[0].id }
     payload.permission = permission
-
     //Sign payload with jwt
     const secret = process.env.JWT_SECRET || 'Thisisabadsecret'
     const token = jsonwebtoken.sign(payload, secret)
@@ -112,7 +109,6 @@ export async function loginUser(req, res, next) {
     Promise.resolve(token).then((token) => {
       redisClient.set(payload.user_id, token)
     })
-
     // Login user successfully
     res
       .status(StatusCodes.OK)

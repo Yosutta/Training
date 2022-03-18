@@ -56,15 +56,14 @@ export async function addNewCategory(req, res, next) {
 
 export async function editSingleCategoryData(req, res, next) {
   try {
-    const { new_category_title, new_category_slug, new_category_content } =
-      req.body
+    const { category_title, category_slug, category_content } = req.body
     const category_id = req.params.id
     const results = await CategoryModel.editSingleCategory(
       req.DBconnection,
       category_id,
-      new_category_title,
-      new_category_slug,
-      new_category_content
+      category_title,
+      category_slug,
+      category_content
     )
     res.status(StatusCodes.OK).json({ messagecode: ReasonPhrases.OK })
   } catch (err) {

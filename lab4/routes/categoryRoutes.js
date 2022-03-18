@@ -6,6 +6,7 @@ import {
   editSingleCategoryData,
   deleteSingleCategory,
 } from '../controllers/categoryController.js'
+import CategoryValidate from '../middleware/validateinput/CategoryValidate.js'
 import CheckPermission from '../middleware/checkPermisison.js'
 const router = express.Router()
 
@@ -16,9 +17,11 @@ export default function (DBconnection) {
   })
 
   router.route('/').get(CheckPermission, returnHomeCategoryData)
-  router.route('/').post(CheckPermission, addNewCategory)
+  router.route('/').post(CheckPermission, CategoryValidate, addNewCategory)
   router.route('/:id').get(CheckPermission, returnSingleCategoryData)
-  router.route('/:id').put(CheckPermission, editSingleCategoryData)
+  router
+    .route('/:id')
+    .put(CheckPermission, CategoryValidate, editSingleCategoryData)
   router.route('/:id').delete(CheckPermission, deleteSingleCategory)
 
   return router

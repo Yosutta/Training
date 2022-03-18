@@ -67,24 +67,24 @@ describe('Category route testing', () => {
   })
 
   test('Update a category', async () => {
-    const new_category_title = 'Technologies'
-    const new_category_slug = 'tech'
-    const new_category_content = 'Latest news about technologies'
+    const category_title = 'Technologies'
+    const category_slug = 'tech'
+    const category_content = 'Latest news about technologies'
     await CategoryModel.editSingleCategory(
       DBconnection,
       newCategoryId,
-      new_category_title,
-      new_category_slug,
-      new_category_content
+      category_title,
+      category_slug,
+      category_content
     )
     const data = await CategoryModel.getSingleCategory(
       DBconnection,
       newCategoryId
     )
     expect(data.id).toStrictEqual(newCategoryId)
-    expect(data.title).toStrictEqual(new_category_title)
-    expect(data.slug).toStrictEqual(new_category_slug)
-    expect(data.content).toStrictEqual(new_category_content)
+    expect(data.title).toStrictEqual(category_title)
+    expect(data.slug).toStrictEqual(category_slug)
+    expect(data.content).toStrictEqual(category_content)
   })
 
   test('Delete a category', async () => {
