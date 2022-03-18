@@ -1,18 +1,16 @@
-const express = require('express')
-const { route } = require('express/lib/application')
-const {
+import * as express from 'express'
+import {
   registerNewUser,
   returnAllUsersData,
   returnSingleUserData,
   deleteSingleUser,
   loginUser,
   logoutUser,
-  giveNewUserPermission,
-} = require('../controllers/userController')
-const AuthenticateJWT = require('../middleware/AuthenticateJWT')
+} from '../controllers/userController.js'
+import AuthenticateJWT from '../middleware/AuthenticateJWT.js'
 const router = express.Router()
 
-module.exports = function (DBconnection) {
+export default function (DBconnection) {
   router.use((req, res, next) => {
     req.DBconnection = DBconnection
     next()

@@ -1,9 +1,7 @@
-const CategoryModel = require('../models/categoryModel')
-const { StatusCodes, ReasonPhrases } = require('http-status-codes')
-const { json } = require('express/lib/response')
+import CategoryModel from '../models/categoryModel.js'
+import { StatusCodes, ReasonPhrases } from 'http-status-codes'
 
-module.exports.returnHomeCategoryData = async (req, res) => {
-  console.log('category')
+export async function returnHomeCategoryData(req, res) {
   try {
     const all_categories_data = await CategoryModel.getAllCategories(
       req.DBconnection
@@ -19,7 +17,7 @@ module.exports.returnHomeCategoryData = async (req, res) => {
   }
 }
 
-module.exports.returnSingleCategoryData = async (req, res) => {
+export async function returnSingleCategoryData(req, res) {
   try {
     const category_data = await CategoryModel.getSingleCategory(
       req.DBconnection,
@@ -36,7 +34,7 @@ module.exports.returnSingleCategoryData = async (req, res) => {
   }
 }
 
-module.exports.addNewCategory = async (req, res, next) => {
+export async function addNewCategory(req, res, next) {
   try {
     const user_id = req.payload.user_id
     const { category_title, category_slug, category_content } = req.body
@@ -56,7 +54,7 @@ module.exports.addNewCategory = async (req, res, next) => {
   }
 }
 
-module.exports.editSingleCategoryData = async (req, res, next) => {
+export async function editSingleCategoryData(req, res, next) {
   try {
     const { new_category_title, new_category_slug, new_category_content } =
       req.body
@@ -77,14 +75,13 @@ module.exports.editSingleCategoryData = async (req, res, next) => {
   }
 }
 
-module.exports.deleteSingleCategory = async (req, res, next) => {
+export async function deleteSingleCategory(req, res, next) {
   try {
     const category_id = req.params.id
     const results = await CategoryModel.deleteSingleCategory(
       req.DBconnection,
       category_id
     )
-    console.log(results)
     res.status(StatusCodes.OK).json({ messagecode: ReasonPhrases.OK })
   } catch (err) {
     console.log(err)

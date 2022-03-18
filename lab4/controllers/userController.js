@@ -1,11 +1,11 @@
-const redisClient = require('../lib/redis-connection')
-const jwt = require('jsonwebtoken')
-const { StatusCodes, ReasonPhrases } = require('http-status-codes')
-const UserModel = require('../models/userModel')
-const PermissionModel = require('../models/permissionModel')
-const UserPermissionModel = require('../models/userPermissionModel')
-const _ = require('lodash')
-module.exports.returnAllUsersData = async (req, res) => {
+import redisClient from '../lib/redis-connection.js'
+import jsonwebtoken from 'jsonwebtoken'
+import { StatusCodes, ReasonPhrases } from 'http-status-codes'
+import UserModel from '../models/userModel.js'
+import PermissionModel from '../models/permissionModel.js'
+import _ from 'lodash'
+
+export async function returnAllUsersData(req, res) {
   try {
     const all_users_data = await UserModel.getAllUsers(req.DBconnection)
     res.status(StatusCodes.OK).json({ data: { all_users_data } })
@@ -17,7 +17,7 @@ module.exports.returnAllUsersData = async (req, res) => {
   }
 }
 
-module.exports.returnSingleUserData = async (req, res) => {
+export async function returnSingleUserData(req, res) {
   try {
     const user_data = await UserModel.getSingleUserById(
       req.DBconnection,
@@ -32,7 +32,7 @@ module.exports.returnSingleUserData = async (req, res) => {
   }
 }
 
-module.exports.registerNewUser = async (req, res, next) => {
+export async function registerNewUser(req, res, next) {
   try {
     const { email, password } = req.body
     // Kiểm tra xem có bị trùng data trong database hay không?
@@ -64,7 +64,7 @@ module.exports.registerNewUser = async (req, res, next) => {
   }
 }
 
-module.exports.loginUser = async (req, res, next) => {
+export async function loginUser(req, res, next) {
   //Get data from body
   try {
     const { email, password } = req.body
@@ -86,7 +86,7 @@ module.exports.loginUser = async (req, res, next) => {
       foundUser[0].id
     )
     const permission = {}
-    const result = _.forEach(permissionsData, (value) => {
+    _.forEach(permissionsData, (value) => {
       const resource = value.resource
       const action = value.action
       // if (_.has(permission, resource)) {
@@ -105,7 +105,8 @@ module.exports.loginUser = async (req, res, next) => {
     payload.permission = permission
 
     //Sign payload with jwt
-    const token = jwt.sign(payload, process.env.JWT_SECRET)
+    const secret = process.env.JWT_SECRET || 'Thisisabadsecret'
+    const token = jsonwebtoken.sign(payload, secret)
 
     //Save payload to Redis easy authorization
     Promise.resolve(token).then((token) => {
@@ -124,7 +125,7 @@ module.exports.loginUser = async (req, res, next) => {
   }
 }
 
-module.exports.logoutUser = async (req, res, next) => {
+export async function logoutUser(req, res, next) {
   const payload = req.payload
   if (!payload.user_id || !payload.permission)
     return res
@@ -132,13 +133,13 @@ module.exports.logoutUser = async (req, res, next) => {
       .json({ messagecode: 'Invalid token' })
   const user_id = payload.user_id
   Promise.resolve(user_id).then((user_id) => {
-    redisClient.json.del(user_id)
+    redisClient.del(user_id)
   })
   res.clearCookie('jwt')
   res.status(StatusCodes.OK).json({ messagecode: 'Succesfully logged out' })
 }
 
-module.exports.deleteSingleUser = async (req, res, next) => {
+export async function deleteSingleUser(req, res, next) {
   try {
     const user_id = req.params.id
     const deletedUser = await UserModel.deleteSingleUser(

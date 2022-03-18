@@ -21,8 +21,4 @@ app.use('/posts', AuthenticateJWT, postRoutes(DBconnection))
 app.use('/users', userRoutes(DBconnection))
 app.use('/admin', AdminAuthenticate, adminRoutes(DBconnection))
 
-app.listen(8080, () => {
-  console.log('Listening on port 8080')
-})
-
 export default app

@@ -1,4 +1,4 @@
-module.exports = class PermissionModel {
+export default class PermissionModel {
   static async getPermissionId(DBconnection, resource, action) {
     const query = `SELECT id FROM permission WHERE resource=? and action= ?;`
     const [results, fields] = await DBconnection.promise()

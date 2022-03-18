@@ -1,5 +1,5 @@
-const { StatusCodes, ReasonPhrases } = require('http-status-codes')
-const _ = require('lodash')
+import { StatusCodes, ReasonPhrases } from 'http-status-codes'
+import _ from 'lodash'
 
 const RESOURCE_INDEX = 1
 
@@ -32,7 +32,7 @@ const CheckPermission = (req, res, next) => {
       })
 }
 
-module.exports = CheckPermission
+export default CheckPermission
 
 // // Kiểm tra xem path có hợp lệ không
 // let actions

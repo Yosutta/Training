@@ -1,6 +1,6 @@
-module.exports = class PostModel {
+export default class PostModel {
   static async getAllPosts(DBconnection) {
-    const query = `SELECT * FROM post;`
+    const query = `SELECT id,authorId,title,slug,content FROM post;`
     const [results, fields] = await DBconnection.promise()
       .query(query)
       .catch((err) => {
@@ -10,13 +10,13 @@ module.exports = class PostModel {
   }
 
   static async getSinglePost(DBconnection, post_id) {
-    const query = `SELECT * FROM post WHERE id = ?`
+    const query = `SELECT id,authorId,title,slug,content FROM post WHERE id = ?`
     const [results, fields] = await DBconnection.promise()
       .query(query, [post_id])
       .catch((err) => {
         throw err
       })
-    return results
+    return results[0]
   }
 
   static async addNewPost(

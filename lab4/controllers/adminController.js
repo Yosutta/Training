@@ -1,9 +1,9 @@
-const { StatusCodes, ReasonPhrases } = require('http-status-codes')
-const UserModel = require('../models/userModel')
-const UserPermissionModel = require('../models/userPermissionModel')
-const redisClient = require('../lib/redis-connection')
+import { StatusCodes, ReasonPhrases } from 'http-status-codes'
+import UserModel from '../models/userModel.js'
+import UserPermissionModel from '../models/userPermissionModel.js'
+import redisClient from '../lib/redis-connection.js'
 
-module.exports.updateAllUserPermission = async (req, res) => {
+export async function updateAllUserPermission(req, res) {
   try {
     const data = await UserModel.getAllUsers(req.DBconnection)
     let userIdArray = data.map((user) => {
@@ -34,7 +34,7 @@ module.exports.updateAllUserPermission = async (req, res) => {
   }
 }
 
-module.exports.updateSingleUserPermission = async (req, res) => {
+export async function updateSingleUserPermission(req, res) {
   try {
     const { userId, permissionId } = req.body
     if (!userId || !permissionId) throw new Error('Missing query input')
@@ -57,7 +57,7 @@ module.exports.updateSingleUserPermission = async (req, res) => {
   }
 }
 
-module.exports.deleteAllUserPermission = async (req, res) => {
+export async function deleteAllUserPermission(req, res) {
   try {
     const data = await UserModel.getAllUsers(req.DBconnection)
     let userIdArray = data.map((user) => {
@@ -88,7 +88,7 @@ module.exports.deleteAllUserPermission = async (req, res) => {
   }
 }
 
-module.exports.deleteSingleUserPermission = async (req, res) => {
+export async function deleteSingleUserPermission(req, res) {
   try {
     const { userId, permissionId } = req.body
     if (!userId || !permissionId) throw new Error('Missing query input')

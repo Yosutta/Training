@@ -1,6 +1,6 @@
-module.exports = class CategoryModel {
+export default class CategoryModel {
   static async getAllCategories(DBconnection) {
-    const query = `SELECT * FROM category;`
+    const query = `SELECT id,authorId,title,slug,content FROM category;`
     const [results, fields] = await DBconnection.promise()
       .query(query)
       .catch((err) => {
@@ -10,13 +10,13 @@ module.exports = class CategoryModel {
   }
 
   static async getSingleCategory(DBconnection, category_id) {
-    const query = `SELECT * FROM category WHERE id = ? ;`
+    const query = `SELECT id,authorId,title,slug,content FROM category WHERE id = ? ;`
     const [results, fields] = await DBconnection.promise()
       .query(query, [category_id])
       .catch((err) => {
         throw err
       })
-    return results
+    return results[0]
   }
 
   static async addNewCategory(

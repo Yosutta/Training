@@ -1,6 +1,6 @@
-module.exports = class userModel {
+export default class UserModel {
   static async getAllUsers(DBconnection) {
-    const query = `SELECT * FROM user;`
+    const query = `SELECT id,email,passwordHash FROM user;`
     const [results, fields] = await DBconnection.promise()
       .query(query)
       .catch((err) => {
@@ -9,7 +9,7 @@ module.exports = class userModel {
     return results
   }
   static async getAllUsersNumber(DBconnection) {
-    const query = `SELECT * FROM user;`
+    const query = `SELECT id,email,passwordHash FROM user;`
     const [results, fields] = await DBconnection.promise()
       .query(query)
       .catch((err) => {
@@ -19,7 +19,7 @@ module.exports = class userModel {
   }
 
   static async getSingleUserById(DBconnection, user_id) {
-    const query = `SELECT * FROM user WHERE id = ?`
+    const query = `SELECT id,email,passwordHash FROM user WHERE id = ?`
     const [results, fields] = await DBconnection.promise()
       .query(query, [user_id])
       .catch((err) => {
@@ -29,7 +29,7 @@ module.exports = class userModel {
   }
 
   static async getUserByEmail(DBconnection, email) {
-    const query = `SELECT * FROM user WHERE email=?`
+    const query = `SELECT id,email,passwordHash FROM user WHERE email=?`
     const [results, fields] = await DBconnection.promise()
       .query(query, [email])
       .catch((err) => {
@@ -39,7 +39,7 @@ module.exports = class userModel {
   }
 
   static async getUserByEmailAndPassword(DBconnection, email, password) {
-    const query = `SELECT * FROM user WHERE email=? and passwordHash=?`
+    const query = `SELECT id,email,passwordHash FROM user WHERE email=? and passwordHash=?`
     const [results, fields] = await DBconnection.promise()
       .query(query, [email, password])
       .catch((err) => {

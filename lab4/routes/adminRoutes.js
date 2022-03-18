@@ -1,13 +1,13 @@
-const express = require('express')
-const {
+import * as express from 'express'
+import {
   updateAllUserPermission,
   updateSingleUserPermission,
   deleteAllUserPermission,
   deleteSingleUserPermission,
-} = require('../controllers/adminController')
+} from '../controllers/adminController.js'
 const router = express.Router()
 
-module.exports = function (DBconnection) {
+export default function (DBconnection) {
   router.use((req, res, next) => {
     req.DBconnection = DBconnection
     next()

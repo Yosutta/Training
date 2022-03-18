@@ -1,16 +1,15 @@
-const express = require('express')
-const { route } = require('express/lib/application')
-const {
+import * as express from 'express'
+import {
   addNewCategory,
   returnHomeCategoryData,
   returnSingleCategoryData,
   editSingleCategoryData,
   deleteSingleCategory,
-} = require('../controllers/categoryController')
-const CheckPermission = require('../middleware/checkPermisison')
+} from '../controllers/categoryController.js'
+import CheckPermission from '../middleware/checkPermisison.js'
 const router = express.Router()
 
-module.exports = function (DBconnection) {
+export default function (DBconnection) {
   router.use((req, res, next) => {
     req.DBconnection = DBconnection
     next()
@@ -24,5 +23,3 @@ module.exports = function (DBconnection) {
 
   return router
 }
-
-// module.exports = router

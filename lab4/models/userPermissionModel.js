@@ -1,4 +1,4 @@
-module.exports = class UserPermissionModel {
+export default class UserPermissionModel {
   static async addUserPermission(DBconnection, userId, permissionId) {
     //Add permission [resources, actions]
     const query = `INSERT INTO user_permission(userId, permissionId) value(?, ?);`

@@ -1,4 +1,4 @@
-const mysql = require('mysql2')
+import * as mysql from 'mysql2'
 
 const connection = mysql.createConnection({
   port: 3306,
@@ -8,4 +8,4 @@ const connection = mysql.createConnection({
   password: 'password',
 })
 
-module.exports = connection
+export default connection

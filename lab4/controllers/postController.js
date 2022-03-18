@@ -1,7 +1,7 @@
-const PostModel = require('../models/postModel')
-const { StatusCodes, ReasonPhrases } = require('http-status-codes')
+import PostModel from '../models/postModel.js'
+import { StatusCodes, ReasonPhrases } from 'http-status-codes'
 
-module.exports.returnHomePostData = async (req, res) => {
+export async function returnHomePostData(req, res) {
   try {
     const all_posts_data = await PostModel.getAllPosts(req.DBconnection)
     res
@@ -15,7 +15,7 @@ module.exports.returnHomePostData = async (req, res) => {
   }
 }
 
-module.exports.returnSinglePostData = async (req, res) => {
+export async function returnSinglePostData(req, res) {
   try {
     const post_data = await PostModel.getSinglePost(
       req.DBconnection,
@@ -32,7 +32,7 @@ module.exports.returnSinglePostData = async (req, res) => {
   }
 }
 
-module.exports.addNewPost = async (req, res, next) => {
+export async function addNewPost(req, res, next) {
   try {
     const author_id = req.payload.user_id
     const post_created_at = new Date(Date.now()).toISOString().split('T')[0]
@@ -58,7 +58,7 @@ module.exports.addNewPost = async (req, res, next) => {
   }
 }
 
-module.exports.editSinglePostData = async (req, res, next) => {
+export async function editSinglePostData(req, res, next) {
   try {
     const { new_post_title, new_post_slug, new_post_content } = req.body
     const post_id = req.params.id
@@ -80,7 +80,7 @@ module.exports.editSinglePostData = async (req, res, next) => {
   }
 }
 
-module.exports.deleteSinglePost = async (req, res, next) => {
+export async function deleteSinglePost(req, res, next) {
   try {
     const post_id = req.params.id
     await PostModel.deleteSinglePost(req.DBconnection, post_id)
