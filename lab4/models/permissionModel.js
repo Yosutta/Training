@@ -9,16 +9,13 @@ export default class PermissionModel {
     return results[0]
   }
 
-  static async getUserPermission(DBconnection, user_id) {
+  static async getUserPermission(DBconnection, userId) {
     const query = `SELECT resource, action FROM user_permission, permission WHERE userId=? and user_permission.permissionId=permission.id`
     const [results, fields] = await DBconnection.promise()
-      .query(query, [user_id])
+      .query(query, [userId])
       .catch((err) => {
         throw err
       })
     return results
   }
-
-  static async updateAllUserPermission(DBconnection, permissions_id) {}
-  // Một route cho riêng admin để update quyền
 }

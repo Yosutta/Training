@@ -18,10 +18,10 @@ export default class UserModel {
     return results.length
   }
 
-  static async getSingleUserById(DBconnection, user_id) {
+  static async getSingleUserById(DBconnection, userId) {
     const query = `SELECT id,email,passwordHash FROM user WHERE id = ?`
     const [results, fields] = await DBconnection.promise()
-      .query(query, [user_id])
+      .query(query, [userId])
       .catch((err) => {
         throw err
       })
@@ -51,12 +51,12 @@ export default class UserModel {
   static async registerNewUser(
     DBconnection,
     email,
-    password_hash,
-    registered_at
+    passwordHash,
+    registeredAt
   ) {
     const query = `INSERT INTO user(email, passwordHash, registeredAt) VALUES (?,?,?)`
     const [results, fields] = await DBconnection.promise()
-      .query(query, [email, password_hash, registered_at])
+      .query(query, [email, passwordHash, registeredAt])
       .catch((err) => {
         throw err
       })
@@ -73,10 +73,10 @@ export default class UserModel {
     return results[0]
   }
 
-  static async deleteSingleUser(DBconnection, user_id) {
+  static async deleteSingleUser(DBconnection, userId) {
     const query = `DELETE FROM user WHERE id=?`
     const [results, promises] = await DBconnection.promise()
-      .query(query, [user_id])
+      .query(query, [userId])
       .catch((err) => {
         throw err
       })

@@ -3,10 +3,10 @@ import { StatusCodes, ReasonPhrases } from 'http-status-codes'
 
 export async function returnHomePostData(req, res) {
   try {
-    const all_posts_data = await PostModel.getAllPosts(req.DBconnection)
+    const allPostsData = await PostModel.getAllPosts(req.DBconnection)
     res
       .status(StatusCodes.OK)
-      .json({ messagecode: ReasonPhrases.OK, data: { all_posts_data } })
+      .json({ messagecode: ReasonPhrases.OK, data: { allPostsData } })
   } catch (err) {
     console.log(err)
     res
@@ -17,13 +17,13 @@ export async function returnHomePostData(req, res) {
 
 export async function returnSinglePostData(req, res) {
   try {
-    const post_data = await PostModel.getSinglePost(
+    const postData = await PostModel.getSinglePost(
       req.DBconnection,
       req.params.id
     )
     res
       .status(StatusCodes.OK)
-      .json({ messagecode: ReasonPhrases.OK, data: { post_data } })
+      .json({ messagecode: ReasonPhrases.OK, data: { postData } })
   } catch (err) {
     console.log(err)
     res
@@ -34,18 +34,18 @@ export async function returnSinglePostData(req, res) {
 
 export async function addNewPost(req, res, next) {
   try {
-    const author_id = req.payload.user_id
-    const post_created_at = new Date(Date.now()).toISOString().split('T')[0]
-    const post_published = 1
-    const { post_title, post_slug, post_content } = req.body
+    const authorId = req.payload.userId
+    const postCreatedAt = new Date(Date.now()).toISOString().split('T')[0]
+    const postPublished = 1
+    const { postTitle, postSlug, postContent } = req.body
     await PostModel.addNewPost(
       req.DBconnection,
-      author_id,
-      post_title,
-      post_slug,
-      post_published,
-      post_created_at,
-      post_content
+      authorId,
+      postTitle,
+      postSlug,
+      postPublished,
+      postCreatedAt,
+      postContent
     )
     res
       .status(StatusCodes.OK)
@@ -60,14 +60,14 @@ export async function addNewPost(req, res, next) {
 
 export async function editSinglePostData(req, res, next) {
   try {
-    const { post_title, post_slug, post_content } = req.body
-    const post_id = req.params.id
+    const { postTitle, postSlug, postContent } = req.body
+    const postId = req.params.id
     await PostModel.editSinglePost(
       req.DBconnection,
-      post_id,
-      post_title,
-      post_slug,
-      post_content
+      postId,
+      postTitle,
+      postSlug,
+      postContent
     )
     res
       .status(StatusCodes.OK)
@@ -82,8 +82,8 @@ export async function editSinglePostData(req, res, next) {
 
 export async function deleteSinglePost(req, res, next) {
   try {
-    const post_id = req.params.id
-    await PostModel.deleteSinglePost(req.DBconnection, post_id)
+    const postId = req.params.id
+    await PostModel.deleteSinglePost(req.DBconnection, postId)
     res
       .status(StatusCodes.OK)
       .json({ messagecode: 'Successfully deleted a post' })

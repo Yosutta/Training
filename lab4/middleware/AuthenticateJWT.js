@@ -17,8 +17,8 @@ const Authenticate = async (req, res, next) => {
       const secret = process.env.JWT_SECRET || 'Thisisabadsecret'
       const payload = jsonwebtoken.verify(token, secret)
       req.payload = payload
-      const redis_payload = await client.get(payload.user_id)
-      if (redis_payload !== token) {
+      const redisPayload = await client.get(payload.userId)
+      if (redisPayload !== token) {
         return res.status(StatusCodes.OK).json({
           messagecode: 'Login session does not exist. Please login again',
         })

@@ -9,10 +9,10 @@ export default class CategoryModel {
     return results
   }
 
-  static async getSingleCategory(DBconnection, category_id) {
+  static async getSingleCategory(DBconnection, categoryId) {
     const query = `SELECT id,authorId,title,slug,content FROM category WHERE id = ? ;`
     const [results, fields] = await DBconnection.promise()
-      .query(query, [category_id])
+      .query(query, [categoryId])
       .catch((err) => {
         throw err
       })
@@ -21,14 +21,14 @@ export default class CategoryModel {
 
   static async addNewCategory(
     DBconnection,
-    user_id,
-    category_title,
-    category_slug,
-    category_content
+    userId,
+    categoryTitle,
+    categorySlug,
+    categoryContent
   ) {
     const query = `INSERT INTO category(authorId,title,slug,content) VALUES (?,?,?,?)`
     const [results, fields] = await DBconnection.promise()
-      .query(query, [user_id, category_title, category_slug, category_content])
+      .query(query, [userId, categoryTitle, categorySlug, categoryContent])
       .catch((err) => {
         throw err
       })
@@ -37,29 +37,24 @@ export default class CategoryModel {
 
   static async editSingleCategory(
     DBconnection,
-    category_id,
-    new_category_title,
-    new_category_slug,
-    new_category_content
+    categoryId,
+    categoryTitle,
+    categorySlug,
+    categoryContent
   ) {
     const query = `UPDATE category SET title=?, slug=?, content=? WHERE id=?;`
     const [results, fields] = await DBconnection.promise()
-      .query(query, [
-        new_category_title,
-        new_category_slug,
-        new_category_content,
-        category_id,
-      ])
+      .query(query, [categoryTitle, categorySlug, categoryContent, categoryId])
       .catch((err) => {
         throw err
       })
     return results
   }
 
-  static async deleteSingleCategory(DBconnection, category_id) {
+  static async deleteSingleCategory(DBconnection, categoryId) {
     const query = `DELETE FROM category WHERE id=?`
     const [results, fields] = await DBconnection.promise()
-      .query(query, [category_id])
+      .query(query, [categoryId])
       .catch((err) => {
         throw err
       })

@@ -9,10 +9,10 @@ export default class PostModel {
     return results
   }
 
-  static async getSinglePost(DBconnection, post_id) {
+  static async getSinglePost(DBconnection, postId) {
     const query = `SELECT id,authorId,title,slug,content FROM post WHERE id = ?`
     const [results, fields] = await DBconnection.promise()
-      .query(query, [post_id])
+      .query(query, [postId])
       .catch((err) => {
         throw err
       })
@@ -21,22 +21,22 @@ export default class PostModel {
 
   static async addNewPost(
     DBconnection,
-    author_id,
-    post_title,
-    post_slug,
-    post_published,
-    post_created_at,
-    post_content
+    authorId,
+    postTitle,
+    postSlug,
+    postPublished,
+    postCreatedAt,
+    postContent
   ) {
     const query = `INSERT INTO post(authorId,title,slug,published,createdAt,content) VALUES (?,?,?,?,?,?)`
     const [results, fields] = await DBconnection.promise()
       .query(query, [
-        author_id,
-        post_title,
-        post_slug,
-        post_published,
-        post_created_at,
-        post_content,
+        authorId,
+        postTitle,
+        postSlug,
+        postPublished,
+        postCreatedAt,
+        postContent,
       ])
       .catch((err) => {
         throw err
@@ -46,24 +46,24 @@ export default class PostModel {
 
   static async editSinglePost(
     DBconnection,
-    post_id,
-    new_post_title,
-    new_post_slug,
-    new_post_content
+    postId,
+    postTitle,
+    postSlug,
+    postContent
   ) {
     const query = `UPDATE post SET title=?, slug=?, content=? WHERE id=?;`
     const [results, fields] = await DBconnection.promise()
-      .query(query, [new_post_title, new_post_slug, new_post_content, post_id])
+      .query(query, [postTitle, postSlug, postContent, postId])
       .catch((err) => {
         throw err
       })
     return results
   }
 
-  static async deleteSinglePost(DBconnection, post_id) {
+  static async deleteSinglePost(DBconnection, postId) {
     const query = `DELETE FROM post WHERE id=?`
     const [results, fields] = await DBconnection.promise()
-      .query(query, [post_id])
+      .query(query, [postId])
       .catch((err) => {
         throw err
       })

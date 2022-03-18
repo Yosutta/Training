@@ -7,8 +7,8 @@ import _ from 'lodash'
 
 export async function returnAllUsersData(req, res) {
   try {
-    const all_users_data = await UserModel.getAllUsers(req.DBconnection)
-    res.status(StatusCodes.OK).json({ data: { all_users_data } })
+    const allUsersData = await UserModel.getAllUsers(req.DBconnection)
+    res.status(StatusCodes.OK).json({ data: { allUsersData } })
   } catch (err) {
     console.log(err)
     res
@@ -19,11 +19,11 @@ export async function returnAllUsersData(req, res) {
 
 export async function returnSingleUserData(req, res) {
   try {
-    const user_data = await UserModel.getSingleUserById(
+    const userData = await UserModel.getSingleUserById(
       req.DBconnection,
       req.params.id
     )
-    res.status(StatusCodes.OK).json({ data: { user_data } })
+    res.status(StatusCodes.OK).json({ data: { userData } })
   } catch (err) {
     console.log(err)
     res
@@ -43,15 +43,15 @@ export async function registerNewUser(req, res, next) {
         .json({ messagecode: 'An account with this email already existed' })
 
     //Tạo tài khoản mới
-    const registered_at = new Date(Date.now())
+    const registeredAt = new Date(Date.now())
       .toISOString()
       .slice(0, 19)
       .replace('T', ' ')
-    const new_user = await UserModel.registerNewUser(
+    const newUser = await UserModel.registerNewUser(
       req.DBconnection,
       email,
       password,
-      registered_at
+      registeredAt
     )
     res
       .status(StatusCodes.OK)
@@ -99,7 +99,7 @@ export async function loginUser(req, res, next) {
     })
 
     // Create payload
-    const payload = { user_id: foundUser[0].id }
+    const payload = { userId: foundUser[0].id }
     payload.permission = permission
     //Sign payload with jwt
     const secret = process.env.JWT_SECRET || 'Thisisabadsecret'
@@ -107,7 +107,7 @@ export async function loginUser(req, res, next) {
 
     //Save payload to Redis easy authorization
     Promise.resolve(token).then((token) => {
-      redisClient.set(payload.user_id, token)
+      redisClient.set(payload.userId, token)
     })
     // Login user successfully
     res
@@ -123,13 +123,13 @@ export async function loginUser(req, res, next) {
 
 export async function logoutUser(req, res, next) {
   const payload = req.payload
-  if (!payload.user_id || !payload.permission)
+  if (!payload.userId || !payload.permission)
     return res
       .status(StatusCodes.UNAUTHORIZED)
       .json({ messagecode: 'Invalid token' })
-  const user_id = payload.user_id
-  Promise.resolve(user_id).then((user_id) => {
-    redisClient.del(user_id)
+  const userId = payload.userId
+  Promise.resolve(userId).then((userId) => {
+    redisClient.del(userId)
   })
   res.clearCookie('jwt')
   res.status(StatusCodes.OK).json({ messagecode: 'Succesfully logged out' })
@@ -137,10 +137,10 @@ export async function logoutUser(req, res, next) {
 
 export async function deleteSingleUser(req, res, next) {
   try {
-    const user_id = req.params.id
+    const userId = req.params.id
     const deletedUser = await UserModel.deleteSingleUser(
       req.DBconnection,
-      user_id
+      userId
     )
     res.status(StatusCodes.OK).json({ messagecode: 'Deleted account' })
   } catch (err) {
