@@ -37,7 +37,7 @@ describe('Authentication testing', () => {
 
   test('JWT token in Redis after login', async () => {
     const currentUserId = jsonwebtoken.verify(token, jwtSecret)
-    const redisToken = await redisClient.get(currentUserId.user_id)
+    const redisToken = await redisClient.get(currentUserId.userId)
     expect(redisToken).toBeTruthy()
   })
 
@@ -50,7 +50,7 @@ describe('Authentication testing', () => {
 
   test('JWT token in Redis after logout', async () => {
     const currentUser = jsonwebtoken.verify(token, jwtSecret)
-    const redisToken = await redisClient.get(currentUser.user_id)
+    const redisToken = await redisClient.get(currentUser.userId)
     expect(redisToken).toBeFalsy()
   })
 
@@ -58,20 +58,20 @@ describe('Authentication testing', () => {
     const response = await request(app).get(ROUTE_AUTH.ALL_USERS)
     const data = await UserModel.getAllUsers(DBconnection)
     expect(response.statusCode).toEqual(StatusCodes.OK)
-    expect(response.body.data.all_users_data).toStrictEqual(data)
+    expect(response.body.data.allUsersData).toStrictEqual(data)
   })
 
   test('Get a single user data', async () => {
     const currentUser = jsonwebtoken.verify(token, jwtSecret)
     const response = await request(app).get(
-      `${ROUTE_AUTH.SINGLE_USER}${currentUser.user_id}`
+      `${ROUTE_AUTH.SINGLE_USER}${currentUser.userId}`
     )
     const data = await UserModel.getSingleUserById(
       DBconnection,
-      currentUser.user_id
+      currentUser.userId
     )
     expect(response.statusCode).toEqual(StatusCodes.OK)
-    expect(response.body.data.user_data).toStrictEqual(data)
+    expect(response.body.data.userData).toStrictEqual(data)
   })
 })
 
