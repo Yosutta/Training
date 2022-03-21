@@ -1,5 +1,5 @@
 {
-  "name": "fanout",
+  "name": "Training",
   "version": "1.0.0",
   "description": "",
   "main": "consumer.js",
@@ -8,5 +8,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "amqp": "^0.2.7",
+    "amqplib": "^0.8.0",
+    "cli-color": "^2.0.1"
+  }
 }
