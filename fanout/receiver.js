@@ -1,14 +1,61 @@
-const connection = require('../lib/rabbitmq.connection')
-const EXCHANGE_NAME = 'logs'
-const QUEUE_NAME = ''
+const QUEUE_NAME = 'directqueue'
+const clc = require('cli-color')
+const rabbitmq = require('amqplib')
 
-connection.then(async (conn) => {
-  const channel = await conn.createChannel()
-  const QUEUE = await channel.assertQueue(QUEUE_NAME, { exclusive: true })
-  console.log(QUEUE)
-  await channel.bindQueue(QUEUE.queue, EXCHANGE_NAME)
-  channel.consume(QUEUE.queue, (m) => {
-    console.log(m.content.toString())
-    channel.ack(m)
-  })
-})
+const stopProgram = (err) => {
+  console.error(err)
+  process.exit(1)
+}
+
+const connectionConfig = {
+  protocol: 'amqp',
+  hostname: 'localhost',
+  port: 5672,
+  username: 'guest',
+  password: 'guest',
+  locale: 'en_US',
+  frameMax: 0,
+  heartbeat: 0,
+  vhost: '/',
+}
+
+var connection = null
+
+async function init() {
+  const maxTimeOut = 5000
+  try {
+    connection = await rabbitmq.connect(connectionConfig)
+    connection.on('close', () => {
+      setTimeout(async () => {
+        await init()
+        console.log('Reconnecting')
+      }, maxTimeOut)
+      console.log('Close')
+    })
+
+    connection.on('error', (err) => {
+      console.log(clc.red(`Connection error: ${err}`))
+      setTimeout(async () => {
+        await init()
+        console.log('Reconnecting')
+      }, maxTimeOut)
+      console.log('Error')
+    })
+
+    if (connection) {
+      console.log('Connected')
+      const channel = await connection.createChannel()
+      channel.consume(QUEUE_NAME, (m) => {
+        console.log(m.content.toString())
+        channel.ack(m)
+      })
+    }
+  } catch (err) {
+    setTimeout(async () => {
+      await init()
+      console.log('Reconnecting in catch')
+    }, maxTimeOut)
+  }
+}
+
+init()
