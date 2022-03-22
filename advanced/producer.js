@@ -25,12 +25,11 @@ async function initProducer() {
 
     console.log(clc.green('Channel connection established'))
     await channel.assertQueue(QUEUE_NAME, { durable: true })
-    channel.publish(
-      '',
-      QUEUE_NAME,
-      Buffer.from(new Date(Date.now()).toISOString()),
-      { persistent: true }
-    )
+    for (let i = 0; i < 1000; i++) {
+      channel.publish('', QUEUE_NAME, Buffer.from(`Message ${i}`), {
+        persistent: true,
+      })
+    }
   } catch (err) {
     console.log(`Error: ${err}`)
     console.log(clc.cyan('Recreating channel in catch'))
