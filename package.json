@@ -12,6 +12,7 @@
   "dependencies": {
     "amqp": "^0.2.7",
     "amqplib": "^0.8.0",
-    "cli-color": "^2.0.1"
+    "cli-color": "^2.0.1",
+    "mysql2": "^2.3.3"
   }
 }
