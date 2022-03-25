@@ -1,4 +1,4 @@
 export class CreateTestDTO {
-  name: string;
-  date: Date;
+  name: string
+  date: Date
 }

@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsController = void 0;
 const common_1 = require("@nestjs/common");
 const http_status_codes_1 = require("http-status-codes");
+const useless_exception_1 = require("../exception/useless.exception");
 const createPost_dto_1 = require("./dto/createPost.dto");
 const posts_service_1 = require("./posts.service");
 let PostsController = class PostsController {
@@ -29,6 +30,9 @@ let PostsController = class PostsController {
     create(createPostDto, res) {
         this.postsService.create(createPostDto);
         return res.status(http_status_codes_1.StatusCodes.OK).json({ message: http_status_codes_1.ReasonPhrases.OK });
+    }
+    throwError() {
+        throw new useless_exception_1.default();
     }
 };
 __decorate([
@@ -46,6 +50,12 @@ __decorate([
     __metadata("design:paramtypes", [createPost_dto_1.CreatePostDto, Object]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "create", null);
+__decorate([
+    (0, common_1.Get)('error'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "throwError", null);
 PostsController = __decorate([
     (0, common_1.Controller)('posts'),
     __metadata("design:paramtypes", [posts_service_1.PostsService])

@@ -8,14 +8,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsModule = void 0;
 const common_1 = require("@nestjs/common");
+const checker_middleware_1 = require("../middleware/checker.middleware");
 const posts_controller_1 = require("./posts.controller");
 const posts_service_1 = require("./posts.service");
 let PostsModule = class PostsModule {
+    configure(consumer) {
+        consumer
+            .apply(checker_middleware_1.default)
+            .exclude({ path: 'posts', method: common_1.RequestMethod.POST })
+            .forRoutes(posts_controller_1.PostsController);
+    }
 };
 PostsModule = __decorate([
     (0, common_1.Module)({
         controllers: [posts_controller_1.PostsController],
         providers: [posts_service_1.PostsService],
+        exports: [posts_service_1.PostsService]
     })
 ], PostsModule);
 exports.PostsModule = PostsModule;
