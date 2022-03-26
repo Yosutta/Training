@@ -1,11 +1,13 @@
 const QUEUE_NAME = 'square'
 const EXCHANGE_NAME = 'main'
-const BINDING_KEY = 'category'
+const BINDING_KEY = 'pdf_create'
 const connection = require('../lib/rabbitmq.connection')
 
-connection.then(async (conn) => {
+async function initConsumer() {
+  const conn = await connection()
   const channel = await conn.createChannel()
-  channel.bindQueue(QUEUE_NAME, EXCHANGE_NAME, BINDING_KEY)
+  await channel.assertQueue(QUEUE_NAME, { exclusive: true })
+  await channel.bindQueue(QUEUE_NAME, EXCHANGE_NAME, BINDING_KEY)
   channel.consume(
     QUEUE_NAME,
     (m) => {
@@ -20,4 +22,6 @@ connection.then(async (conn) => {
     { consumerTag: 'Calculate squared number' }
   )
   // console.log('END!!!!')
-})
+}
+
+initConsumer()
