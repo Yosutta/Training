@@ -3,14 +3,15 @@ const EXCHANGE_TYPE = 'topic'
 const EXCHANGE_NAME = 'topic_logs'
 
 const ROUTING_KEY = process.argv[2]
-const message = process.argv[3]
 
-connection.then(async (conn) => {
+async function initProducer() {
+  const conn = await connection()
   const channel = await conn.createChannel()
   await channel.assertExchange(EXCHANGE_NAME, EXCHANGE_TYPE)
-  await channel.publish(EXCHANGE_NAME, ROUTING_KEY, Buffer.from(message))
-})
+  channel.publish(EXCHANGE_NAME, ROUTING_KEY, Buffer.from(ROUTING_KEY))
+}
 
+initProducer()
 // quick.orange.rabbit "quick.orange.rabbit"
 // lazy.orange.elephant "lazy.orange.elephant"
 // quick.orange.fox "quick.orange.fox"

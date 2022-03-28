@@ -1,6 +1,6 @@
 const connection = require('../lib/rabbitmq.connection')
-const QUEUE_NAME = ''
 const EXCHANGE_NAME = 'fanout_logs'
+const QUEUE_NAME = ''
 
 async function initConsumer() {
   const conn = await connection()

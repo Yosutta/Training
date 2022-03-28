@@ -1,3 +1,7 @@
 node_modules
 .eslintrc
-.prettierrc.js
+.prettierrc
+
+test-project/node_modules
+test-project/.eslintrc.js
+test-project/dist
