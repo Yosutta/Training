@@ -3,5 +3,4 @@ node_modules
 .prettierrc
 
 test-project/node_modules
-test-project/.eslintrc.js
 test-project/dist

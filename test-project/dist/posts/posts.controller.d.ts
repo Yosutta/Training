@@ -5,4 +5,5 @@ export declare class PostsController {
     constructor(postsService: PostsService);
     findAll(res: any): Promise<any>;
     create(createPostDto: CreatePostDto, res: any): void;
+    throwError(): void;
 }

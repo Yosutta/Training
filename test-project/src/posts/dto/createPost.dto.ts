@@ -1,5 +1,5 @@
 export class CreatePostDto {
-  title: number;
-  slug: string;
-  content: string;
+  title: number
+  slug: string
+  content: string
 }

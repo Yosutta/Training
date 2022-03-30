@@ -17,9 +17,12 @@ const common_1 = require("@nestjs/common");
 const http_status_codes_1 = require("http-status-codes");
 const create_test_dto_1 = require("./dto/create-test.dto");
 const test_service_1 = require("./test.service");
+const posts_service_1 = require("../posts/posts.service");
+const createPost_dto_1 = require("../posts/dto/createPost.dto");
 let TestController = class TestController {
-    constructor(testService) {
+    constructor(testService, postService) {
         this.testService = testService;
+        this.postService = postService;
     }
     getTest() {
         return 'This is a test';
@@ -41,6 +44,9 @@ let TestController = class TestController {
     }
     create(createTestDTO) {
         this.testService.create(createTestDTO);
+    }
+    createNewPost(createPostDTO) {
+        this.postService.create(createPostDTO);
     }
 };
 __decorate([
@@ -85,9 +91,16 @@ __decorate([
     __metadata("design:paramtypes", [create_test_dto_1.CreateTestDTO]),
     __metadata("design:returntype", Object)
 ], TestController.prototype, "create", null);
+__decorate([
+    (0, common_1.Post)('createPost'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [createPost_dto_1.CreatePostDto]),
+    __metadata("design:returntype", void 0)
+], TestController.prototype, "createNewPost", null);
 TestController = __decorate([
     (0, common_1.Controller)('test'),
-    __metadata("design:paramtypes", [test_service_1.TestService])
+    __metadata("design:paramtypes", [test_service_1.TestService, posts_service_1.PostsService])
 ], TestController);
 exports.TestController = TestController;
 //# sourceMappingURL=test.controller.js.map
