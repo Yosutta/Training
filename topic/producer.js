@@ -12,9 +12,6 @@ async function initProducer() {
 }
 
 initProducer()
-// quick.orange.rabbit "quick.orange.rabbit"
-// lazy.orange.elephant "lazy.orange.elephant"
-// quick.orange.fox "quick.orange.fox"
-// lazy.brown.fox "lazy.brown.fox"
-// lazy.pink.rabbit "lazy.pink.rabbit"
-// quick.brown.fox "quick.brown.fox"
+
+// <method>.<endpoint>.<id>
+//    get  .   post   .123

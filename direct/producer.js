@@ -11,15 +11,3 @@ async function initProducer() {
 }
 
 initProducer()
-
-// const publish = []
-// for (let i = 0; i < 5000; i++) {
-//   publish.push(channel.publish(EXCHANGE_NAME, ROUTING_KEY, Buffer.from(json)))
-// }
-// Promise.all(publish)
-
-// 50000
-
-// for (let i = 0; i < 50000; i++) {
-//   channel.publish(EXCHANGE_NAME, ROUTING_KEY, Buffer.from(json))
-// }
