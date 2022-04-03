@@ -11,7 +11,7 @@ export declare class TestController {
     getStatus(response: any): any;
     getPath(request: any): string;
     findAll(res: any): Promise<Test[]>;
-    getId(id: string): string;
+    getTestId(id: any): string;
     create(createTestDTO: CreateTestDTO): any;
     createNewPost(createPostDTO: CreatePostDto): void;
 }

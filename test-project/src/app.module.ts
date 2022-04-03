@@ -7,6 +7,8 @@ import { PostsController } from './posts/posts.controller'
 import { PostsService } from './posts/posts.service'
 import { PostsModule } from './posts/posts.module'
 import { TestModule } from './test/test.module'
+import { APP_PIPE } from '@nestjs/core'
+import ValidationPipe from './common/pipes/validation.pipe'
 
 @Module({
   imports: [PostsModule, TestModule],

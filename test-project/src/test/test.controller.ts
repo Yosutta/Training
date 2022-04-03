@@ -1,9 +1,12 @@
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Get,
   HttpCode,
+  HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Req,
   Res,
@@ -46,10 +49,15 @@ export class TestController {
     return this.testService.findAll()
   }
 
-  @Get(':id')
-  getId(@Param('id') id: string) {
-    return `Param id ${id}`
+  @Get('anid')
+  getTestId(@Param('id', new DefaultValuePipe(69), ParseIntPipe) id){
+    return `Param id is ${id}`
   }
+
+  // @Get(':id')
+  // getId(@Param('id', new DefaultValuePipe(69),new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number) {
+  //   return `Param id ${id}`
+  // }
 
   @Post()
   create(@Body() createTestDTO: CreateTestDTO): any {
@@ -60,4 +68,5 @@ export class TestController {
   createNewPost(@Body() createPostDTO:CreatePostDto){
     this.postService.create(createPostDTO)
   }
+
 }
